@@ -14,7 +14,8 @@ public class Infointraction : MonoBehaviour
     public GameObject CanvasBase;
     private GameObject player;
 
-    static GameObject thereCanOnlyBeOne;
+    //Added this static to store the most recent instance of interaction dialogue
+    static GameObject thereCanOnlyBeOne; 
 
     private void Awake()
     {
@@ -33,19 +34,21 @@ public class Infointraction : MonoBehaviour
          * then starts the disable coroutine that will disable the canvas after 15 seconds
          */
         if(CanvasBase.activeSelf)//checks if the canvas is already active we do this at start to avoid the canvas being active at the start of the game
-        {
+        {//This also allows player to toggle off an interaction dialogue by interacting again
             CanvasBase.SetActive(false);
             CanvasBase.transform.parent = canvasParent.transform;
             CanvasBase.transform.localPosition = initalPositionInsideOfParent;
             return;
         }
         if (thereCanOnlyBeOne != null)
-        {
+        {//this turns off the dialogue of the previous interaction when a new interaction is made
             thereCanOnlyBeOne.SetActive(false);
             thereCanOnlyBeOne.transform.parent = thereCanOnlyBeOne.transform.parent.gameObject.transform;
             thereCanOnlyBeOne.transform.localPosition = thereCanOnlyBeOne.transform.localPosition;
         }
+        //assign the new interaction
         thereCanOnlyBeOne = thisAudio.gameObject;
+
         CanvasBase.transform.parent = null;
         CanvasBase.transform.position = canvasParent.transform.position + new Vector3(0,50,0);
 
