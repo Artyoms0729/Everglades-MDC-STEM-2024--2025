@@ -19,8 +19,8 @@ public class SkyboxCycle : MonoBehaviour
     [Header("Skybox Rotation")]
     public float skyboxRotationSpeed = 0.5f; // Adjusted for slower rotation in VR
 
-    // Rain particle system and sound effects
-    public ParticleSystem rainEffect;
+    // Array for multiple rain effects and sound effects
+    public ParticleSystem[] rainEffects;  // Array for multiple rain particle systems
     public AudioSource rainSound;
     public AudioSource windSound;
 
@@ -57,6 +57,11 @@ public class SkyboxCycle : MonoBehaviour
         // Set initial skybox and start the cycle timer
         RenderSettings.skybox = skyboxes[currentSkyboxIndex];
         timer = durations[currentSkyboxIndex];
+
+        // Ensure all rain effects and sounds are initially stopped
+        StopAllRainEffects();
+        if (rainSound != null) rainSound.Stop();
+        if (windSound != null) windSound.Stop();
     }
 
     void Update()
@@ -131,11 +136,11 @@ public class SkyboxCycle : MonoBehaviour
     {
         if (skyboxes[skyboxIndex] == hurricaneMildSkybox)
         {
-            StartRain(false);
+            StartRain(false); // Start mild rain for mild hurricane
         }
         else if (skyboxes[skyboxIndex] == hurricaneHeavySkybox)
         {
-            StartRain(true);
+            StartRain(true); // Start heavy rain for heavy hurricane
             SetSoundVolume(heavyRainVolume, heavyWindVolume);
         }
         else if (skyboxes[skyboxIndex] == clearSkybox)
@@ -145,42 +150,46 @@ public class SkyboxCycle : MonoBehaviour
         }
         else
         {
-            // Stop rain immediately for other skyboxes without fade-out
+            // Ensure rain and sounds are stopped for non-hurricane and non-clear sky phases
             StopRainImmediately();
         }
     }
 
-    // Start rain effect based on hurricane intensity
+    // Start rain effects based on hurricane intensity
     void StartRain(bool heavyRain)
     {
-        if (rainEffect != null)
+        foreach (var rainEffect in rainEffects)
         {
-            var emission = rainEffect.emission;
-            var main = rainEffect.main;
-
-            if (heavyRain)
+            if (rainEffect != null && !rainEffect.isPlaying) // Ensure rain starts only if not already playing
             {
-                emission.rateOverTime = heavyRainParticles;
-                main.startSpeed = heavyRainStartSpeed;
-                main.startLifetime = heavyRainLifetime;
-                if (windSound != null && !windSound.isPlaying)
+                var emission = rainEffect.emission;
+                var main = rainEffect.main;
+
+                if (heavyRain)
                 {
-                    windSound.Play();
+                    emission.rateOverTime = heavyRainParticles;
+                    main.startSpeed = heavyRainStartSpeed;
+                    main.startLifetime = heavyRainLifetime;
                 }
-            }
-            else
-            {
-                emission.rateOverTime = mildRainParticles;
-                main.startSpeed = mildRainStartSpeed;
-                main.startLifetime = mildRainLifetime;
-            }
+                else
+                {
+                    emission.rateOverTime = mildRainParticles;
+                    main.startSpeed = mildRainStartSpeed;
+                    main.startLifetime = mildRainLifetime;
+                }
 
-            rainEffect.Play();
-
-            if (rainSound != null && !rainSound.isPlaying)
-            {
-                rainSound.Play();
+                rainEffect.Play();
             }
+        }
+
+        if (rainSound != null && !rainSound.isPlaying)
+        {
+            rainSound.Play();
+        }
+
+        if (windSound != null && !windSound.isPlaying)
+        {
+            windSound.Play();
         }
     }
 
@@ -194,13 +203,10 @@ public class SkyboxCycle : MonoBehaviour
         rainFadeCoroutine = StartCoroutine(FadeOutRainAndSounds());
     }
 
-    // Immediately stop rain and sounds for other skybox transitions
+    // Immediately stop all rain effects and sounds for other skybox transitions
     void StopRainImmediately()
     {
-        if (rainEffect != null)
-        {
-            rainEffect.Stop();
-        }
+        StopAllRainEffects();
 
         if (rainSound != null && rainSound.isPlaying)
         {
@@ -213,24 +219,39 @@ public class SkyboxCycle : MonoBehaviour
         }
     }
 
+    // Stop all rain effects immediately
+    void StopAllRainEffects()
+    {
+        foreach (var rainEffect in rainEffects)
+        {
+            if (rainEffect != null && rainEffect.isPlaying)
+            {
+                rainEffect.Stop();
+            }
+        }
+    }
+
     IEnumerator FadeOutRainAndSounds()
     {
-        if (rainEffect != null)
+        foreach (var rainEffect in rainEffects)
         {
-            var emission = rainEffect.emission;
-            float initialRate = emission.rateOverTime.constant;
-            float fadeDuration = 5f;
-            float elapsed = 0f;
-
-            while (elapsed < fadeDuration)
+            if (rainEffect != null && rainEffect.isPlaying)
             {
-                emission.rateOverTime = Mathf.Lerp(initialRate, 0, elapsed / fadeDuration);
-                elapsed += Time.deltaTime;
-                yield return null;
-            }
+                var emission = rainEffect.emission;
+                float initialRate = emission.rateOverTime.constant;
+                float fadeDuration = 5f;
+                float elapsed = 0f;
 
-            emission.rateOverTime = 0;
-            rainEffect.Stop();
+                while (elapsed < fadeDuration)
+                {
+                    emission.rateOverTime = Mathf.Lerp(initialRate, 0, elapsed / fadeDuration);
+                    elapsed += Time.deltaTime;
+                    yield return null;
+                }
+
+                emission.rateOverTime = 0;
+                rainEffect.Stop();
+            }
         }
 
         if (rainSound != null && rainSound.isPlaying)
@@ -278,7 +299,7 @@ public class SkyboxCycle : MonoBehaviour
         if (hurricaneHeavySkybox == null) { UnityEngine.Debug.LogError("hurricaneHeavySkybox is not assigned."); allAssigned = false; }
         if (clearSkybox == null) { UnityEngine.Debug.LogError("clearSkybox is not assigned."); allAssigned = false; }
         if (nightSkybox == null) { UnityEngine.Debug.LogError("nightSkybox is not assigned."); allAssigned = false; }
-        if (rainEffect == null) { UnityEngine.Debug.LogError("RainEffect ParticleSystem is not assigned."); allAssigned = false; }
+        if (rainEffects == null || rainEffects.Length == 0) { UnityEngine.Debug.LogError("RainEffects array is not assigned or empty."); allAssigned = false; }
         if (rainSound == null) { UnityEngine.Debug.LogError("RainSound AudioSource is not assigned."); allAssigned = false; }
         if (windSound == null) { UnityEngine.Debug.LogError("WindSound AudioSource is not assigned."); allAssigned = false; }
 
