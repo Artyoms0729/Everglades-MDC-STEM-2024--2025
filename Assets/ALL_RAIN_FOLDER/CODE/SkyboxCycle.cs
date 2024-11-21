@@ -29,6 +29,8 @@ public class SkyboxCycle : MonoBehaviour
     public float mildRainParticles = 50f;
     public float mildRainStartSpeed = 5f;
     public float mildRainLifetime = 1f;
+    public float mildRainVolume = 20f; // New volume control for mild rain
+    public float mildWindVolume = 15f; // New volume control for mild wind
 
     [Header("Heavy Hurricane Rain Settings")]
     public float heavyRainParticles = 100f;
@@ -86,7 +88,7 @@ public class SkyboxCycle : MonoBehaviour
                 {
                     StopCoroutine(skyboxTransitionCoroutine);
                 }
-                skyboxTransitionCoroutine = StartCoroutine(FadeOutAndInSkybox(skyboxes[currentSkyboxIndex], skyboxes[nextSkyboxIndex]));
+                skyboxTransitionCoroutine = StartCoroutine(SmoothSkyboxTransition(skyboxes[currentSkyboxIndex], skyboxes[nextSkyboxIndex]));
             }
 
             // Update rain and wind effects based on the next skybox
@@ -97,38 +99,44 @@ public class SkyboxCycle : MonoBehaviour
         }
     }
 
-    // Coroutine to smoothly fade out the current skybox and then fade in the next
-    IEnumerator FadeOutAndInSkybox(Material currentSkybox, Material nextSkybox)
+    // Coroutine for smooth skybox transition
+    IEnumerator SmoothSkyboxTransition(Material currentSkybox, Material nextSkybox)
     {
-        float halfTransitionDuration = transitionDuration / 2f;
         float elapsedTime = 0f;
 
-        // Fade out current skybox
-        while (elapsedTime < halfTransitionDuration)
+        // Create temporary materials to avoid modifying the originals
+        Material tempCurrentSkybox = new Material(currentSkybox);
+        Material tempNextSkybox = new Material(nextSkybox);
+
+        // Assign the temporary material to the RenderSettings
+        RenderSettings.skybox = tempCurrentSkybox;
+
+        // Fade out the current skybox
+        while (elapsedTime < transitionDuration / 2)
         {
+            float blend = 1 - (elapsedTime / (transitionDuration / 2));
+            tempCurrentSkybox.SetFloat("_Blend", blend);
             elapsedTime += Time.deltaTime;
-            float blend = Mathf.Clamp01(1 - (elapsedTime / halfTransitionDuration));
-            if (RenderSettings.skybox != null)
-                RenderSettings.skybox.Lerp(currentSkybox, nextSkybox, blend);
             yield return null;
         }
 
-        RenderSettings.skybox = null; // Ensure full fade-out
-
-        // Reset elapsed time for fade-in
+        // Switch to the next skybox material
         elapsedTime = 0f;
+        RenderSettings.skybox = tempNextSkybox;
 
-        // Fade in next skybox
-        while (elapsedTime < halfTransitionDuration)
+        // Fade in the next skybox
+        while (elapsedTime < transitionDuration / 2)
         {
+            float blend = elapsedTime / (transitionDuration / 2);
+            tempNextSkybox.SetFloat("_Blend", blend);
             elapsedTime += Time.deltaTime;
-            float blend = Mathf.Clamp01(elapsedTime / halfTransitionDuration);
-            if (RenderSettings.skybox != null)
-                RenderSettings.skybox.Lerp(currentSkybox, nextSkybox, blend);
             yield return null;
         }
 
-        RenderSettings.skybox = nextSkybox; // Set final skybox
+        // Set the final skybox and clean up temporary materials
+        RenderSettings.skybox = nextSkybox;
+        Destroy(tempCurrentSkybox);
+        Destroy(tempNextSkybox);
     }
 
     // Manage rain and wind effects based on the current skybox phase
@@ -137,6 +145,7 @@ public class SkyboxCycle : MonoBehaviour
         if (skyboxes[skyboxIndex] == hurricaneMildSkybox)
         {
             StartRain(false); // Start mild rain for mild hurricane
+            SetSoundVolume(mildRainVolume, mildWindVolume);
         }
         else if (skyboxes[skyboxIndex] == hurricaneHeavySkybox)
         {
@@ -160,7 +169,7 @@ public class SkyboxCycle : MonoBehaviour
     {
         foreach (var rainEffect in rainEffects)
         {
-            if (rainEffect != null && !rainEffect.isPlaying) // Ensure rain starts only if not already playing
+            if (rainEffect != null && !rainEffect.isPlaying)
             {
                 var emission = rainEffect.emission;
                 var main = rainEffect.main;
