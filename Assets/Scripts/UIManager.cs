@@ -23,9 +23,6 @@ public class UIManager : MonoBehaviour
     public Toggle bassCheck;
     public Toggle catCheck;
     public Toggle pythonCheck;
-    public Toggle heronCheck;
-    public Toggle egretCheck;
-    public Toggle opossumCheck;
     public Toggle oilCheck;
     public Toggle litterCheck;
     public Toggle mangroovesCheck;
@@ -36,10 +33,6 @@ public class UIManager : MonoBehaviour
     public Slider bassMeter;
     public Slider catMeter;
     public Slider pythonMeter;
-    public Slider heronMeter;
-    public Slider egretMeter;
-    public Slider opossumMeter;
-
     public Text statusText;
 
     private int CurrentalligatorCount;
@@ -48,9 +41,6 @@ public class UIManager : MonoBehaviour
     private int CurrentbassCount;
     private int CurrentcatCount;
     private int CurrentpythonCount;
-    private int CurrentheronCount;
-    private int CurrentegretCount;
-    private int CurrentopossumCount;
 
     private int alligatorCountDay;
     private int toadCountDay;
@@ -58,9 +48,6 @@ public class UIManager : MonoBehaviour
     private int bassCountDay;
     private int catCountDay;
     private int pythonCountDay;
-    private int heronCountDay;
-    private int egretCountDay;
-    private int opossumCountDay;
 
     private int alligatorCountNight;
     private int toadCountNight;
@@ -68,9 +55,6 @@ public class UIManager : MonoBehaviour
     private int bassCountNight;
     private int catCountNight;
     private int pythonCountNight;
-    private int heronCountNight;
-    private int egretCountNight;
-    private int opossumCountNight;
 
     private int alligatorCountHurricane;
     private int toadCountHurricane;
@@ -78,10 +62,6 @@ public class UIManager : MonoBehaviour
     private int bassCountHurricane;
     private int catCountHurricane;
     private int pythonCountHurricane;
-    private int heronCountHurricane;
-    private int egretCountHurricane;
-    private int opossumCountHurricane;
-
     public static UIManager instance;
 
     //1 = danger 2 = warning 3 = neutral 4 = warning 5 = danger 
@@ -128,7 +108,6 @@ public class UIManager : MonoBehaviour
           }
        }
 
-    //this is used one more time than the others bc there's a dev command to add toad in FixedUpdate
        public int setToadCount
        {
           get
@@ -339,132 +318,6 @@ public class UIManager : MonoBehaviour
           }
        }
 
-       public int setHeronCount
-       {
-          get
-          {
-             if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "TerrainTest")
-             {
-                return heronCountDay;
-             }
-             if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Night")
-             {
-                return heronCountNight;
-             }
-             if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Hurricane")
-             {
-                return heronCountHurricane;
-             }
-             return CurrentheronCount;
-          }
-          set
-          {
-             if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "TerrainTest")
-             {
-                heronCountDay = Mathf.Clamp(value, 0, 16);
-                CurrentheronCount = heronCountDay;
-                return;
-             }
-             if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Night")
-             {
-                heronCountNight = Mathf.Clamp(value, 0, 16);
-                CurrentheronCount = heronCountNight;
-                return;
-             }
-             if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Hurricane")
-             {
-                heronCountHurricane = Mathf.Clamp(value, 0, 16);
-                CurrentheronCount = heronCountHurricane;
-                return;
-             }
-             CurrentheronCount = Mathf.Clamp(value, 0, 16);
-          }
-       }
-
-       public int setEgretCount
-       {
-          get
-          {
-             if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "TerrainTest")
-             {
-                return egretCountDay;
-             }
-             if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Night")
-             {
-                return egretCountNight;
-             }
-             if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Hurricane")
-             {
-                return egretCountHurricane;
-             }
-             return CurrentegretCount;
-          }
-          set
-          {
-             if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "TerrainTest")
-             {
-                egretCountDay = Mathf.Clamp(value, 0, 16);
-                CurrentegretCount = egretCountDay;
-                return;
-             }
-             if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Night")
-             {
-                egretCountNight = Mathf.Clamp(value, 0, 16);
-                CurrentegretCount = egretCountNight;
-                return;
-             }
-             if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Hurricane")
-             {
-                egretCountHurricane = Mathf.Clamp(value, 0, 16);
-                CurrentegretCount = egretCountHurricane;
-                return;
-             }
-             CurrentegretCount = Mathf.Clamp(value, 0, 16);
-          }
-       }
-
-       public int setOpossumCount
-       {
-          get
-          {
-             if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "TerrainTest")
-             {
-                return opossumCountDay;
-             }
-             if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Night")
-             {
-                return opossumCountNight;
-             }
-             if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Hurricane")
-             {
-                return opossumCountHurricane;
-             }
-             return CurrentopossumCount;
-          }
-          set
-          {
-             if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "TerrainTest")
-             {
-                opossumCountDay = Mathf.Clamp(value, 0, 16);
-                CurrentopossumCount = opossumCountDay;
-                return;
-             }
-             if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Night")
-             {
-                opossumCountNight = Mathf.Clamp(value, 0, 16);
-                CurrentopossumCount = opossumCountNight;
-                return;
-             }
-             if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Hurricane")
-             {
-                opossumCountHurricane = Mathf.Clamp(value, 0, 16);
-                CurrentopossumCount = opossumCountHurricane;
-                return;
-             }
-             CurrentopossumCount = Mathf.Clamp(value, 0, 16);
-          }
-       }
-
        private bool onFirstLoadOfNight = false;
        private bool onFirstLoadOfHurricane = false;
        private bool onFirstLoadOfDay = false;
@@ -504,9 +357,6 @@ public class UIManager : MonoBehaviour
         setBassCount = animalPool.bass.Length;
         setCatCount = animalPool.cats.Length;
         setPythonCount = animalPool.pythons.Length;
-        setHeronCount = animalPool.herons.Length;
-        setEgretCount = animalPool.egrets.Length;
-        setOpossumCount = animalPool.opossums.Length;
     }
     [HideInInspector]
     public int min = 0;
@@ -520,19 +370,17 @@ public class UIManager : MonoBehaviour
         timerText.text = "Time Left - " + string.Format("{0:00}:{1:00}", min, sec);
 
         infoText.text = collectedInfo.ToString() + "/9 Info Collected";
-
-        // Adjust Animal Sliders according to value (5 states)
-
         alligatorMeter.value = setAligatorCount;
         toadMeter.value = setToadCount;
         rabbitMeter.value = setRabbitCount;
         bassMeter.value = setBassCount;
         catMeter.value = setCatCount;
         pythonMeter.value = setPythonCount;
-        heronMeter.value = setHeronCount;
-        egretMeter.value = setEgretCount;
-        opossumMeter.value = setOpossumCount;
 
+
+
+
+       
 
         if (timerValue <= 0)
         {
@@ -546,10 +394,6 @@ public class UIManager : MonoBehaviour
             deSpawnAlligator();
             deSpawnRabbit();
             deSpawnToad();
-
-            deSpawnHeron();
-            deSpawnEgret();
-            deSpawnOpossum();
         }
 
 
@@ -557,6 +401,7 @@ public class UIManager : MonoBehaviour
 
 
 
+        // Adjust Animal Sliders according to value (5 states)
 
     }
     void FixedUpdate()
@@ -571,15 +416,12 @@ public class UIManager : MonoBehaviour
         
         if(onFirstLoadOfHurricane == false && SceneManager.GetActiveScene().name == "Hurricane")
         {
-            setAligatorCount = animalPool.returactiveAligator();
+             setAligatorCount = animalPool.returactiveAligator();
             setToadCount = animalPool.returactiveToad();
             setRabbitCount = animalPool.returactiveRabbit();
             setBassCount = animalPool.returactiveBass();
             setCatCount =   animalPool.returactiveCat();
             setPythonCount = animalPool.returactivePython();
-            setHeronCount = animalPool.returactiveHeron();
-            setEgretCount = animalPool.returactiveEgret();
-            setOpossumCount = animalPool.returactiveOpossum();
             GameDialog.playerHurricaneSceneEntered();
             onFirstLoadOfHurricane = true;
 
@@ -594,9 +436,6 @@ public class UIManager : MonoBehaviour
             setBassCount = animalPool.returactiveBass();
             setCatCount =   animalPool.returactiveCat();
             setPythonCount = animalPool.returactivePython();
-            setHeronCount = animalPool.returactiveHeron();
-            setEgretCount = animalPool.returactiveEgret();
-            setOpossumCount = animalPool.returactiveOpossum();
             GameDialog.playerNightSceneEntered();
             onFirstLoadOfNight = true;
 
@@ -610,9 +449,6 @@ public class UIManager : MonoBehaviour
             setBassCount = animalPool.returactiveBass();
             setCatCount =   animalPool.returactiveCat();
             setPythonCount = animalPool.returactivePython();
-            setHeronCount = animalPool.returactiveHeron();
-            setEgretCount = animalPool.returactiveEgret();
-            setOpossumCount = animalPool.returactiveOpossum();
             Debug.Log("Day");
             Debug.Log(setAligatorCount);
             Debug.Log(setBassCount);
@@ -620,9 +456,6 @@ public class UIManager : MonoBehaviour
             Debug.Log(setPythonCount);
             Debug.Log(setCatCount);
             Debug.Log(setToadCount);
-            Debug.Log(setHeronCount);
-            Debug.Log(setEgretCount);
-            Debug.Log(setOpossumCount);
             
             GameDialog.playerDaySceneEntered();
             onFirstLoadOfDay = true;
@@ -646,9 +479,6 @@ public class UIManager : MonoBehaviour
                 Debug.Log("Bass Count: " + setBassCount);
                 Debug.Log("Cat Count: " + setCatCount);
                 Debug.Log("Python Count: " + setPythonCount);
-                Debug.Log("Heron Count: " + setHeronCount);
-                Debug.Log("Egret Count: " + setEgretCount);
-                Debug.Log("Opossum Count: " + setOpossumCount);
             }
         }
         RecieveChecklistInfo();
@@ -720,24 +550,6 @@ public class UIManager : MonoBehaviour
             {
                 animalPool.SpawnPython(pythonCountDay);
             }
-            Debug.Log("Heron Array Count: " + animalPool.herons.Length);
-            Debug.Log("Heron Variable Count: " + heronCountDay);
-            if (animalPool.herons.Length != heronCountDay)
-            {
-                animalPool.SpawnHeron(heronCountDay);
-            }
-            Debug.Log("Egret Array Count: " + animalPool.egrets.Length);
-            Debug.Log("Egret Variable Count: " + egretCountDay);
-            if (animalPool.egrets.Length != egretCountDay)
-            {
-                animalPool.SpawnEgret(egretCountDay);
-            }
-            Debug.Log("Opossum Array Count: " + animalPool.opossums.Length);
-            Debug.Log("Opossum Variable Count: " + opossumCountDay);
-            if (animalPool.opossums.Length != opossumCountDay)
-            {
-                animalPool.SpawnOpossum(opossumCountDay);
-            }
 
         }
         if(scene == "Night" && onFirstLoadOfNight == true)
@@ -782,24 +594,6 @@ public class UIManager : MonoBehaviour
             if (animalPool.pythons.Length != pythonCountNight)
             {
                 animalPool.SpawnPython(pythonCountNight);
-            }
-            Debug.Log("Heron Array Count: " + animalPool.herons.Length);
-            Debug.Log("Heron Variable Count: " + heronCountNight);
-            if (animalPool.herons.Length != heronCountNight)
-            {
-                animalPool.SpawnHeron(heronCountNight);
-            }
-            Debug.Log("Egret Array Count: " + animalPool.egrets.Length);
-            Debug.Log("Egret Variable Count: " + egretCountNight);
-            if (animalPool.egrets.Length != egretCountNight)
-            {
-                animalPool.SpawnEgret(egretCountNight);
-            }
-            Debug.Log("Opossum Array Count: " + animalPool.opossums.Length);
-            Debug.Log("Opossum Variable Count: " + opossumCountNight);
-            if (animalPool.opossums.Length != opossumCountNight)
-            {
-                animalPool.SpawnOpossum(opossumCountNight);
             }
 
         }
@@ -846,28 +640,9 @@ public class UIManager : MonoBehaviour
             {
                 animalPool.SpawnPython(pythonCountHurricane);
             }
-            Debug.Log("Heron Array Count: " + animalPool.herons.Length);
-            Debug.Log("Heron Variable Count: " + heronCountHurricane);
-            if (animalPool.herons.Length != heronCountHurricane)
-            {
-                animalPool.SpawnHeron(heronCountHurricane);
-            }
-            Debug.Log("Egret Array Count: " + animalPool.egrets.Length);
-            Debug.Log("Egret Variable Count: " + egretCountHurricane);
-            if (animalPool.egrets.Length != egretCountHurricane)
-            {
-                animalPool.SpawnEgret(egretCountHurricane);
-            }
-            Debug.Log("Opossum Array Count: " + animalPool.opossums.Length);
-            Debug.Log("Opossum Variable Count: " + opossumCountHurricane);
-            if (animalPool.opossums.Length != opossumCountHurricane)
-            {
-                animalPool.SpawnOpossum(opossumCountHurricane);
-            }
 
         }
     }
-    //FIXME: IAN, THIS IS WHERE YOU NEED TO PICK UP!
     void RecieveChecklistInfo()
     {
         // Recieve checklist info from Checklist.cs
@@ -965,25 +740,10 @@ public class UIManager : MonoBehaviour
         animalPool.SpawnPython();
         setPythonCount += 1;
     }
-    public void spawnHeron()
-    {
-        animalPool.SpawnHeron();
-        setHeronCount += 1;
-    }
-    public void spawnEgret()
-    {
-        animalPool.SpawnEgret();
-        setEgretCount += 1;
-    }
-    public void spawnOpossum()
-    {
-        animalPool.SpawnOpossum();
-        setOpossumCount += 1;
-    }
     public void deSpawnAlligator()
     {
         animalPool.DeactiveAligator();
-        setAligatorCount -= 1;
+        setPythonCount -= 1;
     }
     public void deSpawnToad()
     {
@@ -1010,21 +770,6 @@ public class UIManager : MonoBehaviour
     {
         animalPool.DeactivePython();
         setPythonCount -= 1;
-    }
-    public void deSpawnHeron()
-    {
-        animalPool.DeactiveHeron();
-        setHeronCount -= 1;
-    }
-    public void deSpawnEgret()
-    {
-        animalPool.DeactiveEgret();
-        setEgretCount -= 1;
-    }
-    public void deSpawnOpossum()
-    {
-        animalPool.DeactiveOpossum();
-        setOpossumCount -= 1;
     }
 
     

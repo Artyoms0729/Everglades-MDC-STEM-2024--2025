@@ -32,13 +32,8 @@ public class GamePlayDialog : MonoBehaviour
     [SerializeField] private AudioClip ClickedSoundeffect;
     [SerializeField] private AudioClip BackSoundeffect;
 
-    private AudioSource interactionAudio;
 
 
-    public void GetInteractAudio(AudioSource interact)
-    {
-        interactionAudio = interact;
-    }
     void FixedUpdate()
     {
         playAudioCueONtimedEvent();
@@ -78,28 +73,27 @@ public class GamePlayDialog : MonoBehaviour
     }
     void playAudioCueONtimedEvent()
     {
-        print("The audio source" + interactionAudio.name);
-        if (uiManager.min == 7 && uiManager.sec == 59 && audioSource.clip != twominutespassed && !interactionAudio.isPlaying)
+        if (uiManager.min == 7 && uiManager.sec == 59 && audioSource.clip != twominutespassed)
         {
             audioSource.clip = twominutespassed;
             audioSource.Play();
         }
-        else if (uiManager.min == 5 && uiManager.sec == 59 && !audioSource.isPlaying && !interactionAudio.isPlaying)
+        if (uiManager.min == 5 && uiManager.sec == 59 && !audioSource.isPlaying)
         {
             audioSource.clip = fourminutespassed;
             audioSource.Play();
         }
-        else if (uiManager.min == 3 && uiManager.sec == 59 && !audioSource.isPlaying && !interactionAudio.isPlaying)
+        if (uiManager.min == 3 && uiManager.sec == 59 && !audioSource.isPlaying)
         {
             audioSource.clip = sixminutespassed;
             audioSource.Play();
         }
-        else if (uiManager.min == 1 && uiManager.sec == 59 && !audioSource.isPlaying && !interactionAudio.isPlaying)
+        if (uiManager.min == 1 && uiManager.sec == 59 && !audioSource.isPlaying)
         {
             audioSource.clip = eightminutespassed;
             audioSource.Play();
         }
-        else if (uiManager.min == 0 && uiManager.sec == 59 && !audioSource.isPlaying && !interactionAudio.isPlaying)
+        if (uiManager.min == 0 && uiManager.sec == 59 && !audioSource.isPlaying)
         {
             audioSource.clip = oneMinuteLeft;
             audioSource.Play();
