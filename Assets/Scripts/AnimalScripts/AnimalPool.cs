@@ -19,6 +19,14 @@ public class AnimalPool : MonoBehaviour
 
     public GameObject[] pythons;
 
+    //programmer Ian added thse animals
+    public GameObject[] herons;
+
+    public GameObject[] egrets;
+
+    public GameObject[] opossums;
+
+
     private UIManager uiManager;
 
     void  Start()
@@ -105,6 +113,43 @@ public class AnimalPool : MonoBehaviour
             ActivateGameobjectWithCount(pythons, count);
         }
     }
+    
+    public void SpawnHeron(int count = 0)
+    {
+        if(count > herons.Length)
+        {
+            count = herons.Length;
+        }
+        ActivateGameObject(herons);
+        if (count > 0)
+        {
+            ActivateGameobjectWithCount(herons, count);
+        }
+    }
+    public void SpawnEgret(int count = 0)
+    {
+        if(count > egrets.Length)
+        {
+            count = egrets.Length;
+        }
+        ActivateGameObject(egrets);
+        if (count > 0)
+        {
+            ActivateGameobjectWithCount(egrets, count);
+        }
+    }
+    public void SpawnOpossum(int count = 0)
+    {
+        if(count > opossums.Length)
+        {
+            count = opossums.Length;
+        }
+        ActivateGameObject(opossums);
+        if (count > 0)
+        {
+            ActivateGameobjectWithCount(opossums, count);
+        }
+    }
 
 
     public void DeactiveAligator()
@@ -131,6 +176,19 @@ public class AnimalPool : MonoBehaviour
     {
         DeactiveGameObject(pythons);
     }
+    public void DeactiveHeron()
+    {
+        DeactiveGameObject(herons);
+    }
+    public void DeactiveEgret()
+    {
+        DeactiveGameObject(egrets);
+    }
+    public void DeactiveOpossum()
+    {
+        DeactiveGameObject(opossums);
+    }
+
     public int returactiveAligator()
     {
         int j = 0;
@@ -197,6 +255,42 @@ public class AnimalPool : MonoBehaviour
         for (int i = 0; i < pythons.Length; i++)
         {
             if (pythons[i].activeInHierarchy)
+            {
+                j++;
+            }
+        }
+        return j;
+    }
+    public int returactiveHeron()
+    {
+        int j = 0;
+        for (int i = 0; i < herons.Length; i++)
+        {
+            if (herons[i].activeInHierarchy)
+            {
+                j++;
+            }
+        }
+        return j;
+    }
+    public int returactiveEgret()
+    {
+        int j = 0;
+        for (int i = 0; i < egrets.Length; i++)
+        {
+            if (egrets[i].activeInHierarchy)
+            {
+                j++;
+            }
+        }
+        return j;
+    }
+    public int returactiveOpossum()
+    {
+        int j = 0;
+        for (int i = 0; i < opossums.Length; i++)
+        {
+            if (opossums[i].activeInHierarchy)
             {
                 j++;
             }
